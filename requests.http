@@ -1,0 +1,81 @@
+###############################################################################
+# SIMBA Care — manual API checks for every action + edge case.
+#
+# Use with the VS Code "REST Client" extension (or JetBrains HTTP client):
+# click "Send Request" above each block. Switch @baseUrl to your deployed URL
+# to test production. Dates use 2026 to stay in the future — adjust as needed.
+###############################################################################
+
+@baseUrl = http://localhost:3000
+# @baseUrl = https://YOUR-DEPLOYMENT.vercel.app
+
+### Usage doc (GET) — describes the contract
+GET {{baseUrl}}/api/voice
+
+### 1. check_availability — slots in a window
+POST {{baseUrl}}/api/voice
+Content-Type: application/json
+
+{ "action": "check_availability", "startDate": "2026-06-01", "endDate": "2026-06-05" }
+
+### 1b. EDGE: no availability (weekend) → 200 "unavailable" + next-day alternativeSlots
+POST {{baseUrl}}/api/voice
+Content-Type: application/json
+
+{ "action": "check_availability", "startDate": "2026-05-30", "endDate": "2026-05-31" }
+
+### 2. create_booking — naive local time is normalized to clinic tz (America/New_York)
+POST {{baseUrl}}/api/voice
+Content-Type: application/json
+
+{
+  "action": "create_booking",
+  "start": "2026-06-09T10:00:00",
+  "name": "Jane Doe",
+  "email": "jane.doe@example.com",
+  "number": "7782957462",
+  "notes": "Root Canal"
+}
+
+### 2b. EDGE: double booking — book the SAME slot again → 200 "conflict"
+POST {{baseUrl}}/api/voice
+Content-Type: application/json
+
+{
+  "action": "create_booking",
+  "start": "2026-06-09T10:00:00",
+  "name": "John Smith",
+  "email": "john.smith@example.com",
+  "number": "7782957462",
+  "notes": "Cleaning"
+}
+
+### 3. cancel_booking — frees the slot again (replace bookingId with a real uid from step 2)
+POST {{baseUrl}}/api/voice
+Content-Type: application/json
+
+{ "action": "cancel_booking", "bookingId": "REPLACE_WITH_UID", "reason": "Patient requested cancellation" }
+
+### 3b. EDGE: cancel a non-existent booking → 404
+POST {{baseUrl}}/api/voice
+Content-Type: application/json
+
+{ "action": "cancel_booking", "bookingId": "does-not-exist" }
+
+### 4. EDGE: validation — invalid email → 400
+POST {{baseUrl}}/api/voice
+Content-Type: application/json
+
+{ "action": "create_booking", "start": "2026-06-09T10:00:00", "name": "Bad", "email": "not-an-email", "number": "7782957462" }
+
+### 4b. EDGE: validation — unknown action → 400
+POST {{baseUrl}}/api/voice
+Content-Type: application/json
+
+{ "action": "frobnicate" }
+
+### 4c. EDGE: validation — endDate before startDate → 400
+POST {{baseUrl}}/api/voice
+Content-Type: application/json
+
+{ "action": "check_availability", "startDate": "2026-06-05", "endDate": "2026-06-01" }

@@ -1,0 +1,40 @@
+name: CI
+
+# Runs the quality gates Vercel does NOT run on its own (lint + tests),
+# plus the production build, on every push and PR to main.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Lint · Test · Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+        env:
+          # Dummy values: the build never calls Cal.com, but env validation
+          # (lib/env.ts) runs at import time and requires these to be present.
+          CAL_API_KEY: ci-dummy-key
+          CAL_EVENT_TYPE_ID: "123456"
