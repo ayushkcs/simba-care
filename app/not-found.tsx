@@ -87,7 +87,7 @@ export default function NotFound() {
           This page skipped its appointment.
         </h1>
         <p className="mt-3 max-w-md text-sm leading-relaxed text-muted sm:text-base">
-          We looked everywhere — the chart, the waiting room, even under the chair — but
+          We looked everywhere — the chart, the waiting room, even under the chair but
           couldn&apos;t find what you were after. It may have been cancelled,
           rescheduled, or never booked at all.
         </p>

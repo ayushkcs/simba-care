@@ -40,9 +40,7 @@ export function ClinicClock() {
       setParts((prev) => {
         const next = clinicParts(new Date());
         // Bail out of re-render when nothing visible has changed.
-        return prev && prev.time === next.time && prev.date === next.date
-          ? prev
-          : next;
+        return prev && prev.time === next.time && prev.date === next.date ? prev : next;
       });
     tick();
     const id = setInterval(tick, 1000);
@@ -51,17 +49,15 @@ export function ClinicClock() {
 
   return (
     <div
-      className="flex items-center gap-1.5 rounded-full border border-line bg-surface/70 px-3 py-1 text-xs shadow-sm backdrop-blur-sm"
+      className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-line bg-surface/70 px-2.5 py-1 text-xs shadow-sm backdrop-blur-sm sm:px-3"
       aria-label="Current clinic time"
       title="Clinic local time (America/New_York)"
       suppressHydrationWarning
     >
-      <Clock className="h-3.5 w-3.5 text-primary" aria-hidden />
-      <span className="font-medium tabular-nums text-ink">
-        {parts?.time ?? "—:—"}
-      </span>
+      <Clock className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+      <span className="font-medium tabular-nums text-ink">{parts?.time ?? "—:—"}</span>
       <span className="hidden text-muted sm:inline">· {parts?.date ?? "—"}</span>
-      <span className="text-muted">· {parts?.tz ?? "—"}</span>
+      <span className="hidden text-muted sm:inline">· {parts?.tz ?? "—"}</span>
     </div>
   );
 }

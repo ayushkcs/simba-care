@@ -19,15 +19,15 @@
 :root {
   color-scheme: light;
   --canvas: #f3ece2;
-  --surface: #fffcf8; 
-  --surface-2: #f6efe4; 
-  --line: #ebe1d2; 
+  --surface: #fffcf8;
+  --surface-2: #f6efe4;
+  --line: #ebe1d2;
   --ink: #2b231c;
-  --muted: #897b6b; 
-  --primary: #c2562e; 
+  --muted: #897b6b;
+  --primary: #c2562e;
   --primary-fg: #ffffff;
-  --accent: #c2562e; 
-  --accent-soft: #fff1e8; 
+  --accent: #c2562e;
+  --accent-soft: #fff1e8;
 
   --warm-1: #ff9a86;
   --warm-2: #ffb399;
@@ -200,6 +200,21 @@ body::before {
   animation: simba-wiggle 0.5s ease-in-out;
 }
 
+/* Gentle staggered entrance for the landing hero. */
+@keyframes simba-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.simba-rise {
+  animation: simba-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .simba-float,
   .simba-bob,
@@ -207,6 +222,7 @@ body::before {
   .simba-twinkle,
   .simba-drift,
   .simba-shimmer-text,
+  .simba-rise,
   .simba-pulse-ring::before,
   .simba-wiggle-group:hover .simba-wiggle-target {
     animation: none !important;

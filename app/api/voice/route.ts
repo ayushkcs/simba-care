@@ -93,6 +93,26 @@ function isConflict(result: Extract<CalResult<unknown>, { ok: false }>): boolean
   );
 }
 
+/**
+ * A 400 from Cal.com about the booking-field responses (e.g. an unparseable
+ * phone number) is a caller *input* problem, not an upstream failure — so we
+ * surface it as a clean 400 with a helpful hint instead of a generic error.
+ * Returns the caller-facing message, or null if this isn't an input error.
+ */
+function invalidBookingInput(
+  result: Extract<CalResult<unknown>, { ok: false }>,
+): string | null {
+  if (result.httpStatus !== 400) return null;
+  const msg = result.message ?? "";
+  if (/invalid_number|phonenumber/i.test(msg)) {
+    return "That phone number isn't valid. Include the country code, e.g. +1 415 555 0123.";
+  }
+  if (/\bresponses\b\s*-/i.test(msg)) {
+    return "Some booking details were invalid. Please check the fields and try again.";
+  }
+  return null;
+}
+
 // ── Action: check_availability ──────────────────────────────────────────────
 async function handleCheckAvailability(payload: CheckAvailabilityPayload) {
   const result = await getSlots({ start: payload.startDate, end: payload.endDate });
@@ -156,6 +176,10 @@ async function handleCreateBooking(payload: CreateBookingPayload) {
         200,
       );
     }
+    // Bad attendee details (e.g. an invalid phone) → clean 400, not a 502.
+    const inputError = invalidBookingInput(result);
+    if (inputError) return badRequest(inputError);
+
     return mapCalError(result);
   }
 
