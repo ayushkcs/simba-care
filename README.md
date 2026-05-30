@@ -16,7 +16,7 @@ SIMBA Care is the piece that sits **between that agent and Cal.com**:
 
 Technically, it's a **Next.js** app: a backend that an **AI voice agent calls mid-conversation** to check availability, book, and cancel dental appointments against the **Cal.com** API, a polished read-only **admin dashboard** for front-desk staff, an interactive **API console** for reviewers to test it, and a clean **landing page** tying it all together.
 
-### 🎥 Demo video
+### Demo video
 
 <!-- Replace VIDEO_ID with your YouTube video id (the part after watch?v= or youtu.be/) -->
 
@@ -26,7 +26,7 @@ Technically, it's a **Next.js** app: a backend that an **AI voice agent calls mi
 
 > _Click the thumbnail to watch the walkthrough._
 
-## 📑 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [Tech stack](#tech-stack)
@@ -38,7 +38,7 @@ Technically, it's a **Next.js** app: a backend that an **AI voice agent calls mi
 - [Assumptions & Scope](#assumptions--scope)
 - [Contributing](#contributing)
 
-## ✨ Features
+## Features
 
 | Area           | Feature             | Details                                                                                                                        |
 | -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -58,7 +58,7 @@ Technically, it's a **Next.js** app: a backend that an **AI voice agent calls mi
 | **Landing**    | Home page           | A polished `/` landing page that frames the project and routes into the dashboard and the API console.                         |
 | **Quality**    | Tested              | 62 unit/route tests (timezone, transforms, filters, schemas, every route branch).                                              |
 
-## 🛠️ Tech stack
+## Tech stack
 
 | Layer             | Choice                                               |
 | ----------------- | ---------------------------------------------------- |
@@ -70,7 +70,7 @@ Technically, it's a **Next.js** app: a backend that an **AI voice agent calls mi
 | Testing           | **Vitest**                                           |
 | Hosting           | **Vercel**                                           |
 
-## 📁 Directory structure
+## Directory structure
 
 ```
 app/
@@ -104,7 +104,7 @@ requests.http             # manual API checks for each action + edge case
 
 - only `lib/cal/client.ts` ever calls `fetch()` to Cal.com, and only `lib/time.ts` does timezone math. Everything else speaks to those through typed functions.
 
-## 🏗️ How it Works (Architecture)
+## How it Works (Architecture)
 
 SIMBA Care has **two entry points** (the voice agent's API call and the admin's browser) that funnel through **one Cal.com client**.
 
@@ -165,7 +165,7 @@ flowchart TD
 
 > Try them all without a voice agent: [`requests.http`](./requests.http) or the [Playground](#frontend-ui).
 
-## 🎨 Frontend UI
+## Frontend UI
 
 > 📸 Screenshots live in [`docs/screenshots/`](./docs/screenshots).
 
@@ -222,7 +222,7 @@ Any unknown route renders a creative, on-brand 404 — a "lost tooth" mascot (th
 
 ![SIMBA Care — Custom 404 page](./docs/screenshots/404.png)
 
-## 🗓️ Cal.com Integration
+## Cal.com Integration
 
 All upstream calls go through `lib/cal/client.ts` using standard `fetch` with:
 
@@ -243,7 +243,7 @@ Env is validated with Zod on boot (`lib/env.ts`) — the app **fails fast** with
 
 > **One-time Cal.com Setup:** the event type must have an **availability schedule** attached (e.g. Mon–Fri 9–5).
 
-## 📂 Clone, Setup & Run Locally
+## Clone, Setup & Run Locally
 
 ### Prerequisites
 
@@ -306,7 +306,7 @@ Open **http://localhost:3000** for the landing page. The dashboard is at **/dash
 
 4. Deploy. The endpoint is live at `https://<your-app>.vercel.app/api/voice`, the dashboard at `/dashboard`.
 
-## 📌 Assumptions & Scope
+## Assumptions & Scope
 
 Decisions made while building, so the scope is explicit:
 
@@ -324,7 +324,7 @@ Decisions made while building, so the scope is explicit:
 | **Past view is bounded**                      | Rolling windows of 15 / 30 / 90 / 365 days, capped at 100 records per status (truncation is surfaced, not silent).                              |
 | **en-US locale**                              | Dates, times, and copy assume US English.                                                                                                       |
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome.
 
@@ -341,7 +341,7 @@ Contributions are welcome.
 4. Run `npm run format` so the diff stays clean.
 5. Open a **pull request** with a clear description of what changed and why.
 
-## 💡 Ideas for "What's Next"
+## Ideas for "What's Next"
 
 - **Auth** on the dashboard (currently open) — shared-password or SSO for staff.
 
@@ -356,5 +356,5 @@ Contributions are welcome.
 ---
 
 <p align="center">
-  Built by <strong><a href="https://ayushkb.blog">Ayush</a></strong> ✦ <a href="https://www.linkedin.com/in/ayushkcs/">LinkedIn</a> ✦ <a href="https://x.com/ayushkcs/">X</a> ✦ <a href="mailto:kayush2k02@gmail.com">Email</a>
+  Built by <strong><a href="https://ayushk.blog">Ayush</a></strong> ✦ <a href="https://www.linkedin.com/in/ayushkcs/">LinkedIn</a> ✦ <a href="https://x.com/ayushkcs/">X</a> ✦ <a href="mailto:kayush2k02@gmail.com">Email</a>
 </p>
