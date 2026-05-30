@@ -16,13 +16,9 @@ SIMBA Care is the piece that sits **between that agent and Cal.com**:
 
 Technically, it's a **Next.js** app: a backend that an **AI voice agent calls mid-conversation** to check availability, book, and cancel dental appointments against the **Cal.com** API, a polished read-only **admin dashboard** for front-desk staff, an interactive **API console** for reviewers to test it, and a clean **landing page** tying it all together.
 
-### Demo video
+### Demo Video
 
-<!-- Replace VIDEO_ID with your YouTube video id (the part after watch?v= or youtu.be/) -->
-
-[![SIMBA Care — Demo](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://youtu.be/VIDEO_ID)
-
-<!-- [![SlackIn Agent Demo](https://img.youtube.com/vi/txg8oxQykac/maxresdefault.jpg)](https://youtu.be/txg8oxQykac) -->
+[![SIMBA Care — Demo](https://img.youtube.com/vi/foD2--GWncw/maxresdefault.jpg)](https://youtu.be/foD2--GWncw)
 
 > _Click the thumbnail to watch the walkthrough._
 
